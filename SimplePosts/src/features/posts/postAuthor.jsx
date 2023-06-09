@@ -4,7 +4,7 @@ import PropTypes from "prop-types"
 
 /**
  * Component that displays the author of a post based on their user ID.
- * @param {number} userId - The ID of the post author.
+ * @param {string} userId - The ID of the post author.
  * @returns {JSX.Element} - A JSX element that displays the author name.
  */
 const PostAuthor = ({ userId }) => {
@@ -17,7 +17,7 @@ const PostAuthor = ({ userId }) => {
 }
 
 PostAuthor.propTypes = {
-    userId: PropTypes.number.isRequired,
+    userId: PropTypes.string.isRequired,
 }
 
 export default PostAuthor

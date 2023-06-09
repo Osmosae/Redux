@@ -21,7 +21,7 @@ const TimeAgo = ({ timestamp }) => {
 }
 
 TimeAgo.propTypes = {
-    timestamp: PropTypes.number.isRequired,
+    timestamp: PropTypes.string.isRequired,
 }
 
 export default TimeAgo
