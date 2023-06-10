@@ -10,7 +10,6 @@ const AddPostForm = () => {
     const [content, setContent] = useState("")
     const [userId, setUserId] = useState("")
     const users = useSelector(selectAllUsers)
-
     //    Update the title as the user types @param {object} e - The event object
     const onTitleChanged = (e) => setTitle(e.target.value)
     //  Update the content as the user types @param {object} e - The event object
@@ -27,14 +26,12 @@ const AddPostForm = () => {
     }
     // Check if the form can be saved
     const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
-
     // Generate an array of user options for the select input
     const userOptions = users.map((user) => (
         <option key={user.id} value={user.id}>
             {user.name}
         </option>
     ))
-
     return (
         <section>
             <h2>Add a New Post</h2>
