@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { postAdded } from "./postsSlice"
+import { addNewPost } from "./postsSlice"
 import { selectAllUsers } from "../users/usersSlice"
 
 //Component for adding a new post
@@ -9,6 +9,7 @@ const AddPostForm = () => {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
     const [userId, setUserId] = useState("")
+    const [addRequestStatus, setAddRequestStatus] = useState("idle")
     const users = useSelector(selectAllUsers)
     //    Update the title as the user types @param {object} e - The event object
     const onTitleChanged = (e) => setTitle(e.target.value)
@@ -16,16 +17,25 @@ const AddPostForm = () => {
     const onContentChanged = (e) => setContent(e.target.value)
     //  Update the selected user as the user changes it @param {object} e - The event object
     const onAuthorChanged = (e) => setUserId(e.target.value)
+    // Check if the form can be saved
+    const canSave = [title, content, userId].every(Boolean) && addRequestStatus === "idle"
     // Dispatch the postAdded action and reset the form fields
     const onSavePostClicked = () => {
-        if (title && content) {
-            dispatch(postAdded(title, content, userId))
-            setTitle("")
-            setContent("")
+        if (canSave) {
+            try {
+                setAddRequestStatus("pending")
+                dispatch(addNewPost({ title, body: content, userId })).unwrap()
+                setTitle("")
+                setContent("")
+                setUserId("")
+            } catch (err) {
+                console.error("Failed to save post", err)
+            } finally {
+                setAddRequestStatus("idle")
+            }
         }
     }
-    // Check if the form can be saved
-    const canSave = Boolean(title) && Boolean(content) && Boolean(userId)
+
     // Generate an array of user options for the select input
     const userOptions = users.map((user) => (
         <option key={user.id} value={user.id}>
